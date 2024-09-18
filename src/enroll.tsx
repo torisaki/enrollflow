@@ -1,15 +1,14 @@
 import {
   Button,
-  Checkbox,
   Form,
   Input,
   Select,
   DatePicker,
-  Upload,
+  Divider,
 } from "antd";
-import { useState } from 'react';
-import { InboxOutlined } from "@ant-design/icons";
-import ResultScr from './result';
+import { useState } from "react";
+//import { InboxOutlined } from "@ant-design/icons";
+import ResultScr from "./result";
 
 const { Option } = Select;
 
@@ -37,17 +36,17 @@ const tailFormItemLayout = {
   },
 };
 
-const normFile = (e: unknown) => {
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return (e as { fileList?: unknown })?.fileList;
-};
+// const normFile = (e: unknown) => {
+//   if (Array.isArray(e)) {
+//     return e;
+//   }
+//   return (e as { fileList?: unknown })?.fileList;
+// };
 
 function Enroll() {
   const [form] = Form.useForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submittedChildName, setSubmittedChildName] = useState('');
+  const [submittedChildName, setSubmittedChildName] = useState("");
 
   const onFinish = (values: { childname: string }) => {
     console.log("Received values of form: ", values);
@@ -73,6 +72,7 @@ function Enroll() {
       <Form
         {...formItemLayout}
         form={form}
+        layout="vertical"
         name="register"
         labelWrap
         onFinish={onFinish}
@@ -82,53 +82,10 @@ function Enroll() {
         style={{ maxWidth: 600 }}
         scrollToFirstError
       >
-        <Form.Item
-          name="childname"
-          label="Tên thiếu nhi"
-          validateTrigger="onBlur"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập tên thiếu nhi!",
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="dob"
-          label="Ngày sinh"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng chọn ngày sinh!",
-            },
-          ]}
-          hasFeedback
-        >
-          <DatePicker />
-        </Form.Item>
-
-        <Form.Item
-          name="address"
-          label="Địa chỉ"
-          validateTrigger="onBlur"
-          rules={[
-            {
-              required: true,
-              message: "Vui lòng nhập địa chỉ nơi ở!",
-              whitespace: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
+        <Divider orientation="left">Câu hỏi về phụ huynh</Divider>
         <Form.Item
           name="parentname"
-          label="Tên phụ huynh"
+          label="Tên của phụ huynh là gì?"
           validateTrigger="onBlur"
           rules={[
             {
@@ -142,17 +99,8 @@ function Enroll() {
         </Form.Item>
 
         <Form.Item
-          name="phone"
-          label="Số điện thoại phụ huynh"
-          validateTrigger="onBlur"
-          rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
-        >
-          <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-        </Form.Item>
-
-        <Form.Item
           name="email"
-          label="Email phụ huynh"
+          label="Email của phụ huynh là gì?"
           validateTrigger="onBlur"
           rules={[
             {
@@ -169,18 +117,141 @@ function Enroll() {
         </Form.Item>
 
         <Form.Item
-          name="grade"
-          label="Khối lớp"
-          rules={[{ required: true, message: "Vui lòng chọn khối lớp!" }]}
+          name="phone"
+          label="Số điện thoại của phụ huynh là gì?"
+          validateTrigger="onBlur"
+          rules={[{ required: true, message: "Vui lòng nhập số điện thoại!" }]}
+        >
+          <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+        </Form.Item>
+
+        <Form.Item
+          name="dob1"
+          label="Ngày tháng năm sinh của phụ huynh?"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn ngày sinh!",
+            },
+          ]}
+          hasFeedback
+        >
+          <DatePicker />
+        </Form.Item>
+
+        <Form.Item
+          name="gender1"
+          label="Giới tính của phụ huynh là gì?"
+          rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
         >
           <Select placeholder="Chọn khối lớp">
-            <Option value="kt">Khai Tâm</Option>
-            <Option value="rl">Rước lễ</Option>
-            <Option value="vd">Vào Đời</Option>
+            <Option value="m1">Nam</Option>
+            <Option value="f1">Nữ</Option>
+            <Option value="e1">Giới tính khác</Option>
           </Select>
         </Form.Item>
 
-        <Form.Item label="Upload hình" rules={[{ required: true, message: "Vui lòng upload file yêu cầu!" }]}>
+        <Divider orientation="left">Câu hỏi về học sinh</Divider>
+
+        <Form.Item
+          name="childname"
+          label="Tên của con bạn là gì?"
+          validateTrigger="onBlur"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập tên thiếu nhi!",
+              whitespace: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="dob1"
+          label="Con bạn sinh ngày tháng năm nào?"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng chọn ngày sinh!",
+            },
+          ]}
+          hasFeedback
+        >
+          <DatePicker />
+        </Form.Item>
+
+        <Form.Item
+          name="email"
+          label="Email của con bạn là gì?"
+          validateTrigger="onBlur"
+          rules={[
+            {
+              type: "email",
+              message: "E-mail không hợp lệ!",
+            },
+            {
+              required: true,
+              message: "Vui lòng nhập E-mail!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="giaoxu"
+          label="Con bạn thuộc giáo xứ nào?"
+          validateTrigger="onBlur"
+          rules={[
+            {
+              required: true,
+              message: "Vui lòng nhập giáo xứ!",
+              whitespace: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="grade"
+          label="Con đã hoàn thành khối nào ở giáo xứ hiện tại?"
+          rules={[{ required: true, message: "Vui lòng chọn khối lớp!" }]}
+        >
+          <Select placeholder="Chọn khối lớp">
+            <Option value="kt">Khai Tâm I - Ấu nhi</Option>
+            <Option value="kt">Khai Tâm II - Ấu nhi</Option>
+            <Option value="rl">Rước lễ I - Thiếu nhi</Option>
+            <Option value="rl">Rước lễ II - Thiếu nhi</Option>
+            <Option value="rl">Thêm Sức I - Thiếu nhi</Option>
+            <Option value="rl">Thêm Sức II - Thiếu nhi</Option>
+            <Option value="rl">Bao Đồng I - Nghĩa sĩ</Option>
+            <Option value="rl">Bao Đồng II - Nghĩa sĩ</Option>
+            <Option value="rl">Bao Đồng III - Nghĩa sĩ</Option>
+            <Option value="rl">Bao Đồng IV - Nghĩa sĩ</Option>
+            <Option value="rl">Vào Đời I - Hiệp sĩ </Option>
+            <Option value="vd">Vào Đời II - Hiệp sĩ </Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          name="gender1"
+          label="Giới tính của con bạn là gì?"
+          rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
+        >
+          <Select placeholder="Chọn giới tính">
+            <Option value="m1">Nam</Option>
+            <Option value="f1">Nữ</Option>
+            <Option value="e1">Giới tính khác</Option>
+          </Select>
+        </Form.Item>
+
+        {/* <Form.Item
+          label="Upload hình"
+          rules={[{ required: true, message: "Vui lòng upload file yêu cầu!" }]}
+        >
           <Form.Item
             name="dragger"
             valuePropName="fileList"
@@ -197,9 +268,9 @@ function Enroll() {
               </p>
             </Upload.Dragger>
           </Form.Item>
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item
+        {/* <Form.Item
           name="agreement"
           valuePropName="checked"
           rules={[
@@ -212,10 +283,8 @@ function Enroll() {
           ]}
           {...tailFormItemLayout}
         >
-          <Checkbox>
-            Tôi đảm bảo các thông tin trên là chính xác.
-          </Checkbox>
-        </Form.Item>
+          <Checkbox>Tôi đảm bảo các thông tin trên là chính xác.</Checkbox>
+        </Form.Item> */}
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Đăng ký
@@ -224,5 +293,5 @@ function Enroll() {
       </Form>
     </>
   );
-
-}export default Enroll;
+}
+export default Enroll;
