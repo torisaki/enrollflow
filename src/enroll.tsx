@@ -7,6 +7,7 @@ import {
 } from "antd";
 import { useEffect, useState } from "react";
 import ResultScr from "./result";
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -39,6 +40,7 @@ function Enroll() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedChildName, setSubmittedChildName] = useState("");
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch('https://sep490-backend-production.up.railway.app/api/survey/1')
@@ -47,11 +49,35 @@ function Enroll() {
       .catch(error => console.error('Error fetching survey data:', error));
   }, []);
 
-  const onFinish = (values: { [key: string]: unknown }) => {
+  const onFinish = async (values: { [key: string]: unknown }) => {
+    setLoading(true);
     console.log("Received values of form: ", values);
-    setSubmittedChildName(values['childname'] as string);
-    setIsSubmitted(true);
+
+    const requestBody = {
+      surveyId: 1,
+      gradeId: 2, // You might want to make this dynamic based on user input
+      answers: surveyData?.questions.map(question => ({
+        questionId: question.questionId,
+        answerText: question.questionType === 'text' ? values[question.questionId] : null,
+        answerType: question.questionType,
+        selectedOptions: question.questionType === 'choice' ? [values[question.questionId]] : null
+      })),
+      note: values.note || "Đây là thông tin thêm cho khảo sát này."
+    };
+
+    try {
+      const response = await axios.post('https://sep490-backend-production.up.railway.app/api/v1/register-infor', requestBody);
+      console.log('Registration successful:', response.data);
+      setSubmittedChildName(values['childname'] as string);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Error submitting registration:', error);
+      // Handle error (e.g., show error message to user)
+    }finally {
+      setLoading(false);
+    }
   };
+
 
   if (isSubmitted) {
     return <ResultScr childName={submittedChildName} />;
@@ -97,7 +123,7 @@ function Enroll() {
         </Form.Item>
       ))}
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={loading}>
           Đăng ký
         </Button>
       </Form.Item>
