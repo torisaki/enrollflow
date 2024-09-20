@@ -41,7 +41,7 @@ function Enroll() {
   const [surveyData, setSurveyData] = useState<SurveyData | null>(null);
 
   useEffect(() => {
-    fetch('/api/survey/1')
+    fetch('https://sep490-backend-production.up.railway.app/api/survey/1')
       .then(response => response.json())
       .then(data => setSurveyData(data.data))
       .catch(error => console.error('Error fetching survey data:', error));
@@ -65,8 +65,8 @@ function Enroll() {
       <Form
         {...formItemLayout}
         form={form}
-        layout="vertical"
         name="register"
+        labelWrap
         onFinish={onFinish}
         style={{ maxWidth: 600 }}
         scrollToFirstError

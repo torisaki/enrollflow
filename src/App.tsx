@@ -27,7 +27,7 @@ function App() {
 
   const fetchMajors = async () => {
     try {
-      const response = await axios.get('/api/v1/major?page=0&size=10');
+      const response = await axios.get('https://sep490-backend-production.up.railway.app/api/v1/major?page=0&size=10');
       setMajors(response.data.data.content);
     } catch (error) {
       console.error('Error fetching majors:', error);
