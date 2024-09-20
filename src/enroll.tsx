@@ -74,7 +74,6 @@ function Enroll() {
         form={form}
         layout="vertical"
         name="register"
-        labelWrap
         onFinish={onFinish}
         initialValues={{
           prefix: "+84",
@@ -144,7 +143,7 @@ function Enroll() {
           label="Giới tính của phụ huynh là gì?"
           rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
         >
-          <Select placeholder="Chọn khối lớp">
+          <Select placeholder="Chọn giới tính">
             <Option value="m1">Nam</Option>
             <Option value="f1">Nữ</Option>
             <Option value="e1">Giới tính khác</Option>
@@ -169,7 +168,7 @@ function Enroll() {
         </Form.Item>
 
         <Form.Item
-          name="dob1"
+          name="dob2"
           label="Con bạn sinh ngày tháng năm nào?"
           rules={[
             {
@@ -221,6 +220,7 @@ function Enroll() {
           rules={[{ required: true, message: "Vui lòng chọn khối lớp!" }]}
         >
           <Select placeholder="Chọn khối lớp">
+            <Option value="no">Chưa từng học giáo lý</Option>
             <Option value="kt">Khai Tâm I - Ấu nhi</Option>
             <Option value="kt">Khai Tâm II - Ấu nhi</Option>
             <Option value="rl">Rước lễ I - Thiếu nhi</Option>
@@ -237,7 +237,7 @@ function Enroll() {
         </Form.Item>
 
         <Form.Item
-          name="gender1"
+          name="gender2"
           label="Giới tính của con bạn là gì?"
           rules={[{ required: true, message: "Vui lòng chọn giới tính!" }]}
         >
